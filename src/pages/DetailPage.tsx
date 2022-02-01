@@ -12,10 +12,6 @@ import { PokemonResponse } from '../types';
 import usePokemonQuery from '../hooks/usePokemonQuery';
 import useSpeciesQuery from '../hooks/useSpecies';
 
-type Params = {
-  id: string;
-}
-
 type Tab  = 'about' | 'stats' | 'evolution';
 
 const Container = styled.section`
@@ -28,12 +24,12 @@ const TabsWrapper = styled.div`
 `;
 
 const DetailPage: React.FC = () => {
-  const { id } = useParams<Params>();
+  const { id } = useParams();
 
   const [selectedTab, setSelectedTab] = useState<Tab>('about');
 
   const pokemonQueryResult = usePokemonQuery<PokemonResponse>(id);
-  const speciesQueryResult = useSpeciesQuery(id);
+  const speciesQueryResult = useSpeciesQuery(id as string);
 
   const { name, types, height, weight, abilities, baseExp, stats } = useMemo(() => ({
     name: pokemonQueryResult.data?.data.name,
@@ -70,7 +66,7 @@ const DetailPage: React.FC = () => {
   return (
     <Container>
       <PokemonInfo
-        id={id}
+        id={id as string}
         name={name}
         types={types}
         color={color}

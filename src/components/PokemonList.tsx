@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled/macro';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { ListResponse } from '../types';
 import { formatNumbering } from '../utils';
@@ -65,7 +65,7 @@ const getImageUrl = (pokemonIndex: number): string =>
 
 const PokemonList: React.FC = () => {
   const { isLoading, isError, data } = usePokemonQuery<ListResponse>();
-  const { push } = useHistory();
+  const navigate = useNavigate();
 
   return (
     <Base>
@@ -78,7 +78,7 @@ const PokemonList: React.FC = () => {
           <List>
             {
               data?.data.results.map((pokemon, idx) => (
-                <ListItem key={pokemon.name} onClick={() => push(`/${idx + 1}`)}>
+                <ListItem key={pokemon.name} onClick={() => navigate(`/${idx + 1}`)}>
                   <Image src={getImageUrl(idx + 1)} alt={pokemon.name} />
                   <Name>{pokemon.name}</Name>
                   <Index>{formatNumbering(idx + 1)}</Index>
